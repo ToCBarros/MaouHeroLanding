@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Web;
 
 namespace MaouHeroLanding.Models
@@ -15,8 +16,6 @@ namespace MaouHeroLanding.Models
         public DateTime Data_Nasc { get; set; }
 
         public string Telemovel { get; set; }
-
-        public string Email { get; set; }
 
         public string Username { get; set; }
 

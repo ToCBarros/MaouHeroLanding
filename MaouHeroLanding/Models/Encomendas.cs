@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
+
+using System.ComponentModel.DataAnnotations;
 using System.Web;
 
 namespace MaouHeroLanding.Models
@@ -17,11 +19,11 @@ namespace MaouHeroLanding.Models
 
         public ICollection<Compras> ListaDasEncomendas { get; set; }
 
-        [ForeignKey("Clientes")]
+        [ForeignKey("Cliente")]
         public int ClienteFK { get; set; }
         public Clientes Cliente { get; set; }
 
-        [ForeignKey("Funcionarios")]
+        [ForeignKey("Funcionario")]
         public int FuncionarioFK { get; set; }
         public Clientes Funcionario { get; set; }
     }
