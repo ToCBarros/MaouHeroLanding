@@ -23,8 +23,6 @@ namespace MaouHeroLanding.Models
         public int ClienteFK { get; set; }
         public Clientes Cliente { get; set; }
 
-        [ForeignKey("Funcionario")]
-        public int FuncionarioFK { get; set; }
-        public Clientes Funcionario { get; set; }
+        
     }
 }

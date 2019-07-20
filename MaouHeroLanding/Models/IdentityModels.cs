@@ -32,7 +32,7 @@ namespace MaouHeroLanding.Models
         public virtual DbSet<Compras> Compras { get; set; }
         public virtual DbSet<Encomendas> Encomendas { get; set; }
 
-        public override void OnModelCreating(DbModelBuilder modelBuilder)
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();
             modelBuilder.Conventions.Remove<ManyToManyCascadeDeleteConvention>();

@@ -155,6 +155,19 @@ namespace MaouHeroLanding.Controllers
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
+                    ClientesController clientescontroller = new ClientesController();
+
+                    Clientes c = new Clientes();
+
+                    c.Nome = model.cliente.Nome;
+                    c.NIF = model.cliente.NIF;
+                    c.Data_Nasc = model.cliente.Data_Nasc;
+                    c.Telemovel = model.cliente.Telemovel;
+                    c.Username = model.cliente.Username;
+                    c.Codigo_postal = model.cliente.Codigo_postal;
+
+                    clientescontroller.Create(c);
+
                     await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
                     
                     // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
