@@ -10,20 +10,18 @@ using MaouHeroLanding.Models;
 
 namespace MaouHeroLanding.Controllers
 {
-    public class ComprasController : Controller
+    public class Compras1Controller : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        int ID;
-
-        // GET: Compras
+        // GET: Compras1
         public ActionResult Index()
         {
             var compras = db.Compras.Include(c => c.Artigo).Include(c => c.Encomenda);
             return View(compras.ToList());
         }
 
-        // GET: Compras/Details/5
+        // GET: Compras1/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -38,7 +36,7 @@ namespace MaouHeroLanding.Controllers
             return View(compras);
         }
 
-        // GET: Compras/Create
+        // GET: Compras1/Create
         public ActionResult Create()
         {
             ViewBag.ArtigoFK = new SelectList(db.Artigos, "ID", "Nome");
@@ -46,24 +44,15 @@ namespace MaouHeroLanding.Controllers
             return View();
         }
 
-        // POST: Compras/Create
+        // POST: Compras1/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "id,preco,EncomendaFK,ArtigoFK")] Compras compras,int id)
+        public ActionResult Create([Bind(Include = "id,preco,EncomendaFK,ArtigoFK")] Compras compras)
         {
-            if (id == null)
-            {
-                
-            }
-            else
-            {
-                ID = id;
-            }
             if (ModelState.IsValid)
             {
-                compras.EncomendaFK = ID;
                 db.Compras.Add(compras);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -74,7 +63,7 @@ namespace MaouHeroLanding.Controllers
             return View(compras);
         }
 
-        // GET: Compras/Edit/5
+        // GET: Compras1/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -91,7 +80,7 @@ namespace MaouHeroLanding.Controllers
             return View(compras);
         }
 
-        // POST: Compras/Edit/5
+        // POST: Compras1/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -109,7 +98,7 @@ namespace MaouHeroLanding.Controllers
             return View(compras);
         }
 
-        // GET: Compras/Delete/5
+        // GET: Compras1/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -124,7 +113,7 @@ namespace MaouHeroLanding.Controllers
             return View(compras);
         }
 
-        // POST: Compras/Delete/5
+        // POST: Compras1/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
