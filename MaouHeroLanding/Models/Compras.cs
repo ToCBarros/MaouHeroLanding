@@ -13,7 +13,7 @@ namespace MaouHeroLanding.Models
         public decimal preco { get; set; }
 
         [ForeignKey("Encomenda")]
-        public int EncomendaFK { get; set; }
+        public int? EncomendaFK { get; set; }
         public Encomendas Encomenda { get; set; }
         
         [ForeignKey("Artigo")]

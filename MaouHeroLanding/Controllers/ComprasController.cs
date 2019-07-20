@@ -13,8 +13,7 @@ namespace MaouHeroLanding.Controllers
     public class ComprasController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
-
-        int ID;
+        
 
         // GET: Compras
         public ActionResult Index()
@@ -51,19 +50,10 @@ namespace MaouHeroLanding.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "id,preco,EncomendaFK,ArtigoFK")] Compras compras,int id)
+        public ActionResult Create([Bind(Include = "id,preco,EncomendaFK,ArtigoFK")] Compras compras)
         {
-            if (id == null)
-            {
-                
-            }
-            else
-            {
-                ID = id;
-            }
             if (ModelState.IsValid)
             {
-                compras.EncomendaFK = ID;
                 db.Compras.Add(compras);
                 db.SaveChanges();
                 return RedirectToAction("Index");
