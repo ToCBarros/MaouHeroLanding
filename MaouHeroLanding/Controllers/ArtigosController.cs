@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -46,12 +47,42 @@ namespace MaouHeroLanding.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,Nome,Tipo,Preco,Data_Entrada,imagem,Descricao,Produtor")] Artigos artigos)
+        public ActionResult Create([Bind(Include = "ID,Nome,Tipo,Preco,Data_Entrada,imagem,Descricao,Produtor")] Artigos artigos, HttpPostedFileBase imagem)
         {
+            string caminho = "";
+            bool haFoto = false;
+
+            // há ficheiro?
+            if (imagem == null)
+            {
+                
+            }
+            else
+            {
+                // há ficheiro
+                // será correto?
+                if (imagem.ContentType == "image/jpeg" ||
+                   imagem.ContentType == "image/png")
+                {
+                    // estamos perante uma foto correta
+                    string extensao = Path.GetExtension(imagem.FileName).ToLower();
+                    Guid g;
+                    g = Guid.NewGuid();
+                    // nome do ficheiro
+                    string nome = g.ToString() + extensao;
+                    // onde guardar o ficheiro
+                    caminho = Path.Combine(Server.MapPath("~/imagens"), nome);
+                    // atribuir ao agente o nome do ficheiro
+                    artigos.imagem = nome;
+                    // assinalar q há foto
+                    haFoto = true;
+                }
+            }
             if (ModelState.IsValid)
             {
                 db.Artigos.Add(artigos);
                 db.SaveChanges();
+                if (haFoto) imagem.SaveAs(caminho);
                 return RedirectToAction("Index");
             }
 

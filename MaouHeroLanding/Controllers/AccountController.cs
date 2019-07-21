@@ -9,6 +9,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using MaouHeroLanding.Models;
+using System.Collections;
 
 namespace MaouHeroLanding.Controllers
 {
@@ -18,8 +19,11 @@ namespace MaouHeroLanding.Controllers
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
 
+        private ApplicationDbContext context;
+
         public AccountController()
         {
+            context = new ApplicationDbContext();
         }
 
         public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
@@ -149,6 +153,7 @@ namespace MaouHeroLanding.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(RegisterViewModel model)
         {
+
             if (ModelState.IsValid)
             {
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
@@ -156,15 +161,15 @@ namespace MaouHeroLanding.Controllers
                 if (result.Succeeded)
                 {
                     ClientesController clientescontroller = new ClientesController();
-
+               
                     Clientes c = new Clientes();
 
                     c.Nome = model.cliente.Nome;
                     c.NIF = model.cliente.NIF;
                     c.Data_Nasc = model.cliente.Data_Nasc;
                     c.Telemovel = model.cliente.Telemovel;
-                    c.Username = model.cliente.Username;
                     c.Codigo_postal = model.cliente.Codigo_postal;
+                    c.Username = user.UserName;
 
                     clientescontroller.Create(c);
 

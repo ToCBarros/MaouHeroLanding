@@ -50,7 +50,11 @@
         <div class="form-group">
             @Html.LabelFor(model => model.imagem, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.imagem, new { htmlAttributes = new { @class = "form-control" } })
+                @* permite a introdução dos dados da fotografia do Agente *@
+                <input type="file" accept=".jpg,.png" name="imagem" />
+
+                @* textbox para introduzir o nome da fotografia
+            @Html.EditorFor(model => model.Fotografia, new { htmlAttributes = new { @class = "form-control" } })*@
                 @Html.ValidationMessageFor(model => model.imagem, "", new { @class = "text-danger" })
             </div>
         </div>

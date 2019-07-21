@@ -179,7 +179,6 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ArtigosController.cs" />
     <Compile Include="Controllers\ClientesController.cs" />
-    <Compile Include="Controllers\Compras1Controller.cs" />
     <Compile Include="Controllers\ComprasController.cs" />
     <Compile Include="Controllers\EncomendasController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -292,11 +291,6 @@
     <Content Include="Views\Encomendas\Details.cshtml" />
     <Content Include="Views\Encomendas\Edit.cshtml" />
     <Content Include="Views\Encomendas\Index.cshtml" />
-    <Content Include="Views\Compras1\Create.cshtml" />
-    <Content Include="Views\Compras1\Delete.cshtml" />
-    <Content Include="Views\Compras1\Details.cshtml" />
-    <Content Include="Views\Compras1\Edit.cshtml" />
-    <Content Include="Views\Compras1\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

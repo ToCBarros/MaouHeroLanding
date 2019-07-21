@@ -50,8 +50,18 @@ namespace MaouHeroLanding.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "ID,Local_entrega,Preco,Estado,ClienteFK")] Encomendas encomendas)
         {
+            IList<Clientes> clienteslist = db.Clientes.ToList();
+            foreach(Clientes c in clienteslist)
+            {
+                if (c.Username == User.Identity.Name)
+                {
+                    encomendas.ClienteFK = c.ID;
+                }
+            }
+
             if (ModelState.IsValid)
             {
+                
                 db.Encomendas.Add(encomendas);
                 db.SaveChanges();
                 return RedirectToAction("Create","Compras");
