@@ -25,7 +25,6 @@ namespace MaouHeroLanding.Migrations
             artigos.ForEach(aa => context.Artigos.AddOrUpdate(a => a.Nome, aa));
             context.SaveChanges();
             
-
         
         }
     }
