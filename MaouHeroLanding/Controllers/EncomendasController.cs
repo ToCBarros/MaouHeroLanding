@@ -10,11 +10,13 @@ using MaouHeroLanding.Models;
 
 namespace MaouHeroLanding.Controllers
 {
+    [Authorize]
     public class EncomendasController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Encomendas
+        [Authorize(Roles = "cliente,funcionario")]
         public ActionResult Index()
         {
             var encomendas = db.Encomendas.Include(e => e.Cliente);
@@ -22,6 +24,7 @@ namespace MaouHeroLanding.Controllers
         }
 
         // GET: Encomendas/Details/5
+        [Authorize(Roles = "cliente,funcionario")]
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -37,6 +40,7 @@ namespace MaouHeroLanding.Controllers
         }
 
         // GET: Encomendas/Create
+        [Authorize(Roles = "cliente")]
         public ActionResult Create()
         {
             ViewBag.ClienteFK = new SelectList(db.Clientes, "ID", "Nome");
@@ -48,6 +52,7 @@ namespace MaouHeroLanding.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "cliente")]
         public ActionResult Create([Bind(Include = "ID,Local_entrega,Preco,Estado,ClienteFK")] Encomendas encomendas)
         {
             IList<Clientes> clienteslist = db.Clientes.ToList();
@@ -72,6 +77,7 @@ namespace MaouHeroLanding.Controllers
         }
 
         // GET: Encomendas/Edit/5
+        [Authorize(Roles = "funcionario")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -92,6 +98,7 @@ namespace MaouHeroLanding.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "funcionario")]
         public ActionResult Edit([Bind(Include = "ID,Local_entrega,Preco,Estado,ClienteFK")] Encomendas encomendas)
         {
             if (ModelState.IsValid)
@@ -105,6 +112,7 @@ namespace MaouHeroLanding.Controllers
         }
 
         // GET: Encomendas/Delete/5
+        [Authorize(Roles = "cliente")]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -120,8 +128,10 @@ namespace MaouHeroLanding.Controllers
         }
 
         // POST: Encomendas/Delete/5
+
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "cliente")]
         public ActionResult DeleteConfirmed(int id)
         {
             Encomendas encomendas = db.Encomendas.Find(id);

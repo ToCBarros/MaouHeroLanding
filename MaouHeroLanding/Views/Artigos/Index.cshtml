@@ -4,11 +4,13 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
-
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
+<h2>Artigos</h2>
+@if (User.IsInRole("gestor"))
+{
+    <p>
+        @Html.ActionLink("Create New", "Create")
+    </p>
+} 
 <table class="table">
     <tr>
         <th>
@@ -35,35 +37,44 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Nome)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Tipo)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Preco)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Data_Entrada)
-        </td>
-        <td>
-            <img src="~/imagens/@item.imagem" height="50" />
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Descricao)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Produtor)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.ID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.ID })
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nome)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Tipo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Preco)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Data_Entrada)
+            </td>
+            <td>
+                <img src="~/imagens/@item.imagem" height="50" />
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Descricao)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Produtor)
+            </td>
+            <td>
+                @if (User.IsInRole("gestor"))
+                {<text>
+                        @Html.ActionLink("Edit", "Edit", new { id = item.ID }) |
+                </text>}
+
+                @Html.ActionLink("Details", "Details", new { id = item.ID }) 
+
+                @if (User.IsInRole("gestor"))
+                {<text>
+                       | @Html.ActionLink("Delete", "Delete", new { id = item.ID }) 
+                </text>}
+            </td>
+        </tr>
+    }
 
 </table>

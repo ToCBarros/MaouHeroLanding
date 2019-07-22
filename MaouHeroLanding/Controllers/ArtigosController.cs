@@ -11,11 +11,13 @@ using MaouHeroLanding.Models;
 
 namespace MaouHeroLanding.Controllers
 {
+    //[Authorize]
     public class ArtigosController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Artigos
+       
         public ActionResult Index()
         {
             return View(db.Artigos.ToList());
@@ -36,6 +38,7 @@ namespace MaouHeroLanding.Controllers
             return View(artigos);
         }
 
+        [Authorize(Roles = "gestor")]
         // GET: Artigos/Create
         public ActionResult Create()
         {
@@ -47,6 +50,7 @@ namespace MaouHeroLanding.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "gestor")]
         public ActionResult Create([Bind(Include = "ID,Nome,Tipo,Preco,Data_Entrada,imagem,Descricao,Produtor")] Artigos artigos, HttpPostedFileBase imagem)
         {
             string caminho = "";
@@ -89,6 +93,7 @@ namespace MaouHeroLanding.Controllers
             return View(artigos);
         }
 
+        [Authorize(Roles = "gestor")]
         // GET: Artigos/Edit/5
         public ActionResult Edit(int? id)
         {
@@ -109,6 +114,7 @@ namespace MaouHeroLanding.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "gestor")]
         public ActionResult Edit([Bind(Include = "ID,Nome,Tipo,Preco,Data_Entrada,imagem,Descricao,Produtor")] Artigos artigos)
         {
             if (ModelState.IsValid)
@@ -120,6 +126,7 @@ namespace MaouHeroLanding.Controllers
             return View(artigos);
         }
 
+        [Authorize(Roles = "gestor")]
         // GET: Artigos/Delete/5
         public ActionResult Delete(int? id)
         {
@@ -138,6 +145,7 @@ namespace MaouHeroLanding.Controllers
         // POST: Artigos/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "gestor")]
         public ActionResult DeleteConfirmed(int id)
         {
             Artigos artigos = db.Artigos.Find(id);

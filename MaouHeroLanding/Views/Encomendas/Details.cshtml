@@ -45,6 +45,12 @@
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
+    @if (User.IsInRole("funcionario"))
+    {
+        <text>
+            @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
+        </text>
+    }
+
     @Html.ActionLink("Back to List", "Index")
 </p>

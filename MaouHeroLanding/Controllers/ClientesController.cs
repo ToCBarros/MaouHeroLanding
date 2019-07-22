@@ -10,17 +10,20 @@ using MaouHeroLanding.Models;
 
 namespace MaouHeroLanding.Controllers
 {
+    [Authorize] //so pessoas autenticadas e que podem fazer estas tarefas
     public class ClientesController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Clientes
+        [Authorize(Roles = "cliente,funcionario")]
         public ActionResult Index()
         {
             return View(db.Clientes.ToList());
         }
 
         // GET: Clientes/Details/5
+        [Authorize(Roles = "cliente,funcionario")]
         public ActionResult Details(int? id)
         {
             if (id == null)
@@ -36,6 +39,7 @@ namespace MaouHeroLanding.Controllers
         }
 
         // GET: Clientes/Create
+        
         public ActionResult Create()
         {
             return View();
@@ -59,6 +63,7 @@ namespace MaouHeroLanding.Controllers
         }
 
         // GET: Clientes/Edit/5
+        [Authorize(Roles = "cliente,funcionario")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -78,6 +83,7 @@ namespace MaouHeroLanding.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "cliente,funcionario")]
         public ActionResult Edit([Bind(Include = "ID,Nome,NIF,Data_Nasc,Telemovel,Username,Codigo_postal")] Clientes clientes)
         {
             if (ModelState.IsValid)
@@ -90,6 +96,7 @@ namespace MaouHeroLanding.Controllers
         }
 
         // GET: Clientes/Delete/5
+        [Authorize(Roles = "funcionario")]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -107,6 +114,7 @@ namespace MaouHeroLanding.Controllers
         // POST: Clientes/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "funcionario")]
         public ActionResult DeleteConfirmed(int id)
         {
             Clientes clientes = db.Clientes.Find(id);

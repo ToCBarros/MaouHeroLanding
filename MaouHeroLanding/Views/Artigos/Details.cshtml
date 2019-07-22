@@ -27,11 +27,11 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Preco)
+            @Html.DisplayNameFor(model => model.Preco) 
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Preco)
+            @Html.DisplayFor(model => model.Preco) €
         </dd>
 
         <dt>
@@ -69,6 +69,9 @@
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
+    @if (User.IsInRole("gestor"))
+    {<text>
+            @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
+    </text>}
     @Html.ActionLink("Back to List", "Index")
 </p>

@@ -172,6 +172,7 @@ namespace MaouHeroLanding.Controllers
                     c.Username = user.UserName;
 
                     clientescontroller.Create(c);
+                    UserManager.AddToRole(user.Id, "cliente");
 
                     await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
                     
