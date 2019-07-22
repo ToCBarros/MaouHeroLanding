@@ -23,7 +23,7 @@ namespace MaouHeroLanding.Controllers
             return View(encomendas.ToList());
         }
 
-
+    
         // GET: Encomendas/Details/5
         [Authorize(Roles = "cliente,funcionario")]
         public ActionResult Details(int? id)
