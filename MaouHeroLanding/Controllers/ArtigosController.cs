@@ -42,6 +42,8 @@ namespace MaouHeroLanding.Controllers
         // GET: Artigos/Create
         public ActionResult Create()
         {
+            Session["id"] = -1;
+            Session["ac"] = "Artigos/Create";
             return View();
         }
 
@@ -53,6 +55,8 @@ namespace MaouHeroLanding.Controllers
         [Authorize(Roles = "gestor")]
         public ActionResult Create([Bind(Include = "ID,Nome,Tipo,Preco,Data_Entrada,imagem,Descricao,Produtor")] Artigos artigos, HttpPostedFileBase imagem)
         {
+            if (Session["ac"] != "Artigos/Create")
+                return RedirectToAction("Index","Artigos");
             string caminho = "";
             bool haFoto = false;
 
@@ -106,6 +110,8 @@ namespace MaouHeroLanding.Controllers
             {
                 return HttpNotFound();
             }
+            Session["id"] = id;
+            Session["ac"] = "Artigos/Edit";
             return View(artigos);
         }
 
@@ -117,6 +123,8 @@ namespace MaouHeroLanding.Controllers
         [Authorize(Roles = "gestor")]
         public ActionResult Edit([Bind(Include = "ID,Nome,Tipo,Preco,Data_Entrada,imagem,Descricao,Produtor")] Artigos artigos)
         {
+            if (Session["ac"] != "Artigos/Edit" || (int)Session["id"]!= artigos.ID)
+                return RedirectToAction("Index", "Artigos");
             if (ModelState.IsValid)
             {
                 db.Entry(artigos).State = EntityState.Modified;
@@ -130,6 +138,8 @@ namespace MaouHeroLanding.Controllers
         // GET: Artigos/Delete/5
         public ActionResult Delete(int? id)
         {
+            Session["id"] = id;
+            Session["ac"] = "Artigos/Delete";
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -148,6 +158,8 @@ namespace MaouHeroLanding.Controllers
         [Authorize(Roles = "gestor")]
         public ActionResult DeleteConfirmed(int id)
         {
+            if (Session["ac"] != "Artigos/Delete" || (int)Session["id"] != id)
+                return RedirectToAction("Index", "Artigos");
             Artigos artigos = db.Artigos.Find(id);
             db.Artigos.Remove(artigos);
             db.SaveChanges();

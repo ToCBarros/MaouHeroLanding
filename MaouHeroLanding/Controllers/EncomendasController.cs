@@ -62,6 +62,8 @@ namespace MaouHeroLanding.Controllers
         [Authorize(Roles = "cliente")]
         public ActionResult Create()
         {
+            Session["id"] = -1;
+            Session["ac"] = "Encomendas/Create";
             ViewBag.ClienteFK = new SelectList(db.Clientes, "ID", "Nome");
             return View();
         }
@@ -74,6 +76,8 @@ namespace MaouHeroLanding.Controllers
         [Authorize(Roles = "cliente")]
         public ActionResult Create([Bind(Include = "ID,Local_entrega,Preco,Estado,ClienteFK")] Encomendas encomendas)
         {
+            if (Session["ac"] != "Encomendas/Create")
+                return RedirectToAction("Index", "Encomendas");
             IList<Clientes> clienteslist = db.Clientes.ToList();
             foreach(Clientes c in clienteslist)
             {
@@ -108,6 +112,8 @@ namespace MaouHeroLanding.Controllers
             {
                 return HttpNotFound();
             }
+            Session["id"] = id;
+            Session["ac"] = "Encomendas/Edit";
             ViewBag.ClienteFK = new SelectList(db.Clientes, "ID", "Nome", encomendas.ClienteFK);
             return View(encomendas);
         }
@@ -120,6 +126,8 @@ namespace MaouHeroLanding.Controllers
         [Authorize(Roles = "funcionario")]
         public ActionResult Edit([Bind(Include = "ID,Local_entrega,Preco,Estado,ClienteFK")] Encomendas encomendas)
         {
+            if (Session["ac"] != "Encomendas/Edit" || (int)Session["id"] != encomendas.ID)
+                return RedirectToAction("Index", "Encomendas");
             if (ModelState.IsValid)
             {
                 db.Entry(encomendas).State = EntityState.Modified;
@@ -134,6 +142,8 @@ namespace MaouHeroLanding.Controllers
         [Authorize(Roles = "cliente")]
         public ActionResult Delete(int? id)
         {
+            Session["id"] = id;
+            Session["ac"] = "Encomendas/Delete";
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -153,6 +163,8 @@ namespace MaouHeroLanding.Controllers
         [Authorize(Roles = "cliente")]
         public ActionResult DeleteConfirmed(int id)
         {
+            if (Session["ac"] != "Encomendas/Delete" || (int)Session["id"] != id)
+                return RedirectToAction("Index", "Encomendas");
             Encomendas encomendas = db.Encomendas.Find(id);
             db.Encomendas.Remove(encomendas);
             db.SaveChanges();
