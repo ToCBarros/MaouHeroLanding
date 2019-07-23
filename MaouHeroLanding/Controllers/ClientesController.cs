@@ -19,7 +19,13 @@ namespace MaouHeroLanding.Controllers
         [Authorize(Roles = "cliente,funcionario")]
         public ActionResult Index()
         {
-            return View(db.Clientes.ToList());
+            if (User.IsInRole("cliente")){
+                return View(db.Clientes.ToList().Where(c => c.Username == User.Identity.Name));
+            }
+            else
+            {
+                return View(db.Clientes.ToList());
+            }
         }
 
         // GET: Clientes/Details/5

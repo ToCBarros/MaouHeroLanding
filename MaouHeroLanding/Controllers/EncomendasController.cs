@@ -19,8 +19,26 @@ namespace MaouHeroLanding.Controllers
         [Authorize(Roles = "cliente,funcionario")]
         public ActionResult Index()
         {
-            var encomendas = db.Encomendas.Include(e => e.Cliente);
-            return View(encomendas.ToList());
+            IList<Clientes> clienteslist = db.Clientes.ToList();
+            if (User.IsInRole("cliente"))
+            {
+                int? cliente = null;
+                foreach (Clientes c in clienteslist)
+                {
+                    if (c.Username == User.Identity.Name)
+                    {
+                        cliente = c.ID;
+                    }
+                }
+
+                var encomendas = db.Encomendas.Include(e => e.Cliente).Where(e => e.ClienteFK == cliente);
+                return View(encomendas.ToList());
+            }
+            else
+            {
+                var encomendas = db.Encomendas.Include(e => e.Cliente);
+                return View(encomendas.ToList());
+            }
         }
 
 
