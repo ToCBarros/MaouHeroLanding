@@ -7,7 +7,7 @@
 <h2>Create</h2>
 
 
-@using (Html.BeginForm()) 
+@using (Html.BeginForm("Create","Artigos",FormMethod.Post, new { enctype="multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
     
@@ -51,10 +51,11 @@
             @Html.LabelFor(model => model.imagem, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
 
-                <input type="file" accept=".jpg,.png" name="fotografia" />
+                <input type="file" accept=".jpg,.png" name="imagem" />
 
-                @*@Html.EditorFor(model => model.Fotografia, new { htmlAttributes = new { @class = "form-control" } })*@
+                @* @Html.EditorFor(model => model.imagem, new { htmlAttributes = new { @class = "form-control" } })*@
                 @Html.ValidationMessageFor(model => model.imagem, "", new { @class = "text-danger" })
+
             </div>
         </div>
 

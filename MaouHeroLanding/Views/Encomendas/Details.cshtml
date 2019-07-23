@@ -58,16 +58,16 @@
                 @* representa uma primeira linha na tabela, que é o seu cabeçalho *@
                 <th>
                     @* listar o Nome do atributo DataDaMulta *@
-                    @Html.DisplayNameFor(m => m.ListaDasEncomendas.FirstOrDefault().id)
+                    @Html.DisplayNameFor(model => model.ListaDasEncomendas.FirstOrDefault().id)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(m => m.ListaDasEncomendas.FirstOrDefault().preco)
+                    @Html.DisplayNameFor(model => model.ListaDasEncomendas.FirstOrDefault().preco)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(m => m.ListaDasEncomendas.FirstOrDefault().EncomendaFK)
+                    @Html.DisplayNameFor(model => model.ListaDasEncomendas.FirstOrDefault().EncomendaFK)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(m => m.ListaDasEncomendas.FirstOrDefault().ArtigoFK)
+                    @Html.DisplayNameFor(model => model.ListaDasEncomendas.FirstOrDefault().ArtigoFK)
                 </th>
             </tr>
             @* representar as diversas multas do agente *@
@@ -75,11 +75,12 @@
             {
                 <tr>
                     <td>
-                        @compra.id
+                        @compra.id 
                     </td>
-                    <td>@compra.preco</td>
-                    <td>@compra.EncomendaFK</td>
-                    <td>@compra.ArtigoFK
+                    <td> @ compra.preco</td>
+                    <td> @compra.EncomendaFK</td>
+                    <td>
+                        @compra.ArtigoFK
                     </td>
                 </tr>
             }
