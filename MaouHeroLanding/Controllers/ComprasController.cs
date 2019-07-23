@@ -63,6 +63,7 @@ namespace MaouHeroLanding.Controllers
         [Authorize(Roles = "cliente")]
         public ActionResult Create([Bind(Include = "id,preco,EncomendaFK,ArtigoFK")] Compras compras)
         {
+            
             if (ModelState.IsValid)
             {
                 int encomenda = Convert.ToInt32(System.Web.HttpContext.Current.Session["encomenda"]);
