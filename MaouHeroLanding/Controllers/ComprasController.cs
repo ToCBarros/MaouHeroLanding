@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
@@ -52,6 +53,8 @@ namespace MaouHeroLanding.Controllers
         {
             ViewBag.ArtigoFK = new SelectList(db.Artigos, "ID", "Nome");
             ViewBag.EncomendaFK = new SelectList(db.Encomendas, "ID", "Local_entrega");
+            Session["id"] = -1;
+            Session["ac"] = "Compras/Create";
             return View();
         }
 
@@ -63,9 +66,32 @@ namespace MaouHeroLanding.Controllers
         [Authorize(Roles = "cliente")]
         public ActionResult Create([Bind(Include = "id,preco,EncomendaFK,ArtigoFK")] Compras compras)
         {
-            
+            if (Session["ac"] != "Compras/Create")
+                return RedirectToAction("Index", "Compras");
+
+            List<Models.Encomendas> ListaDasEncomendas = db.Encomendas.Include(en => en.ListaDasEncomendas).ToList();
+          
+            foreach (Encomendas c in ListaDasEncomendas)
+            {
+                if (c.ID == compras.id)
+                {
+                    IList enc = c.ListaDasEncomendas.ToList();
+                }
+            }
+
             if (ModelState.IsValid)
             {
+
+               //foreach (Encomendas c in ListaDasEncomendas)
+              //  {
+               //     if (c.ID == compras.EncomendaFK)
+                //    {
+                    //    compras.lista = ListaDasEncomendas.Where(qq => qq.ID == compras.EncomendaFK).ToList();
+                   //     c.ListaDasEncomendas.Add(compras);
+                        
+                  //  }
+             //   }
+
                 int encomenda = Convert.ToInt32(System.Web.HttpContext.Current.Session["encomenda"]);
                 compras.EncomendaFK = encomenda;
                 db.Compras.Add(compras);
@@ -82,6 +108,8 @@ namespace MaouHeroLanding.Controllers
         [Authorize(Roles = "cliente")]
         public ActionResult Edit(int? id)
         {
+            Session["id"] = id;
+            Session["ac"] = "Compras/Edit";
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -104,6 +132,8 @@ namespace MaouHeroLanding.Controllers
         [Authorize(Roles = "cliente")]
         public ActionResult Edit([Bind(Include = "id,preco,EncomendaFK,ArtigoFK")] Compras compras)
         {
+            if (Session["ac"] != "Compras/Edit" || (int)Session["id"] != compras.id)
+                return RedirectToAction("Index", "Compras");
             if (ModelState.IsValid)
             {
                 db.Entry(compras).State = EntityState.Modified;
@@ -119,6 +149,8 @@ namespace MaouHeroLanding.Controllers
         [Authorize(Roles = "cliente")]
         public ActionResult Delete(int? id)
         {
+            Session["id"] = id;
+            Session["ac"] = "Compras/Delete";
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -128,6 +160,7 @@ namespace MaouHeroLanding.Controllers
             {
                 return HttpNotFound();
             }
+
             return View(compras);
         }
 
@@ -137,6 +170,8 @@ namespace MaouHeroLanding.Controllers
         [Authorize(Roles = "cliente")]
         public ActionResult DeleteConfirmed(int id)
         {
+            if (Session["ac"] != "Compras/Delete" || (int)Session["id"] != id)
+                return RedirectToAction("Index", "Compras");
             Compras compras = db.Compras.Find(id);
             db.Compras.Remove(compras);
             db.SaveChanges();

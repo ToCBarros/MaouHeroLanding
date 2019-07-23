@@ -76,6 +76,9 @@ namespace MaouHeroLanding.Controllers
         [Authorize(Roles = "cliente")]
         public ActionResult Create([Bind(Include = "ID,Local_entrega,Preco,Estado,ClienteFK")] Encomendas encomendas)
         {
+          
+           
+            
             if (Session["ac"] != "Encomendas/Create")
                 return RedirectToAction("Index", "Encomendas");
             IList<Clientes> clienteslist = db.Clientes.ToList();
@@ -86,7 +89,7 @@ namespace MaouHeroLanding.Controllers
                     encomendas.ClienteFK = c.ID;
                 }
             }
-
+           
             if (ModelState.IsValid)
             {
                 
