@@ -52,5 +52,39 @@
         </text>
     }
 
-    @Html.ActionLink("Back to List", "Index")
+    <div>
+        <table class="table">
+            <tr>
+                @* representa uma primeira linha na tabela, que é o seu cabeçalho *@
+                <th>
+                    @* listar o Nome do atributo DataDaMulta *@
+                    @Html.DisplayNameFor(m => m.ListaDasEncomendas.FirstOrDefault().id)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(m => m.ListaDasEncomendas.FirstOrDefault().preco)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(m => m.ListaDasEncomendas.FirstOrDefault().EncomendaFK)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(m => m.ListaDasEncomendas.FirstOrDefault().ArtigoFK)
+                </th>
+            </tr>
+            @* representar as diversas multas do agente *@
+            @foreach (var compra in Model.ListaDasEncomendas)
+            {
+                <tr>
+                    <td>
+                        @compra.id
+                    </td>
+                    <td>@compra.preco</td>
+                    <td>@compra.EncomendaFK</td>
+                    <td>@compra.ArtigoFK
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+
+        @Html.ActionLink("Back to List", "Index")
 </p>
