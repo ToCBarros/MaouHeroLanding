@@ -53,7 +53,7 @@ namespace MaouHeroLanding.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "gestor")]
-        public ActionResult Create([Bind(Include = "ID,Nome,Tipo,Preco,Data_Entrada,imagem,Descricao,Produtor")] Artigos artigos, HttpPostedFileBase imagem)
+        public ActionResult Create([Bind(Include = "ID,Nome,Tipo,Preco,Data_Entrada,imagem,Descricao,Produtor")] Artigos artigos, HttpPostedFileBase fotografias)
         {
             if (Session["ac"] != "Artigos/Create")
                 return RedirectToAction("Index","Artigos");
@@ -61,7 +61,7 @@ namespace MaouHeroLanding.Controllers
             bool haFoto = false;
 
             // há ficheiro?
-            if (imagem == null)
+            if (fotografias == null)
             {
                 
             }
@@ -69,11 +69,11 @@ namespace MaouHeroLanding.Controllers
             {
                 // há ficheiro
                 // será correto?
-                if (imagem.ContentType == "image/jpeg" ||
-                   imagem.ContentType == "image/png")
+                if (fotografias.ContentType == "image/jpeg" ||
+                   fotografias.ContentType == "image/png")
                 {
                     // estamos perante uma foto correta
-                    string extensao = Path.GetExtension(imagem.FileName).ToLower();
+                    string extensao = Path.GetExtension(fotografias.FileName).ToLower();
                     Guid g;
                     g = Guid.NewGuid();
                     // nome do ficheiro
@@ -90,7 +90,7 @@ namespace MaouHeroLanding.Controllers
             {
                 db.Artigos.Add(artigos);
                 db.SaveChanges();
-                if (haFoto) imagem.SaveAs(caminho);
+                if (haFoto) fotografias.SaveAs(caminho);
                 return RedirectToAction("Index");
             }
 
