@@ -18,9 +18,15 @@ namespace MaouHeroLanding.Controllers
 
         // GET: Compras
         [Authorize(Roles = "cliente")]
-        public ActionResult Index()
+        public ActionResult Index(int? id)
         {
-            var compras = db.Compras.Include(c => c.Artigo).Include(c => c.Encomenda);
+            ViewBag.id = id;
+            if (id == null)
+            {
+                return RedirectToAction("Index", "Encomendas");
+            }
+            var compras = db.Compras.Include(c => c.Artigo).Include(c => c.Encomenda).Where(c=>c.EncomendaFK==id);
+            System.Web.HttpContext.Current.Session["encomenda"] = id;
             return View(compras.ToList());
         }
 
@@ -59,9 +65,11 @@ namespace MaouHeroLanding.Controllers
         {
             if (ModelState.IsValid)
             {
+                int encomenda = Convert.ToInt32(System.Web.HttpContext.Current.Session["encomenda"]);
+                compras.EncomendaFK = encomenda;
                 db.Compras.Add(compras);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index",new { id=encomenda});
             }
 
             ViewBag.ArtigoFK = new SelectList(db.Artigos, "ID", "Nome", compras.ArtigoFK);
@@ -99,7 +107,7 @@ namespace MaouHeroLanding.Controllers
             {
                 db.Entry(compras).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index","Compras",new { id= Convert.ToInt32(System.Web.HttpContext.Current.Session["encomenda"]) });
             }
             ViewBag.ArtigoFK = new SelectList(db.Artigos, "ID", "Nome", compras.ArtigoFK);
             ViewBag.EncomendaFK = new SelectList(db.Encomendas, "ID", "Local_entrega", compras.EncomendaFK);
@@ -131,7 +139,7 @@ namespace MaouHeroLanding.Controllers
             Compras compras = db.Compras.Find(id);
             db.Compras.Remove(compras);
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", "Compras", new { id = Convert.ToInt32(System.Web.HttpContext.Current.Session["encomenda"]) });
         }
 
         protected override void Dispose(bool disposing)

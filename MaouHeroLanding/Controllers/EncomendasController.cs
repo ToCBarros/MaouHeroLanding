@@ -70,7 +70,7 @@ namespace MaouHeroLanding.Controllers
                 
                 db.Encomendas.Add(encomendas);
                 db.SaveChanges();
-                return RedirectToAction("Create","Compras");
+                return RedirectToAction("Index","Compras",new { id=encomendas.ID});
             }
 
             ViewBag.ClienteFK = new SelectList(db.Clientes, "ID", "Nome", encomendas.ClienteFK);

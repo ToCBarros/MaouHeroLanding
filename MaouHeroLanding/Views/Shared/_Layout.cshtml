@@ -27,11 +27,11 @@
                     
                         <li>@Html.ActionLink("Artigos", "Index", "Artigos")</li>
                     
-                    @if (User.IsInRole("funcionario,cliente"))
+                    @if (User.IsInRole("funcionario")|| User.IsInRole("cliente"))
                     {
                         <li>@Html.ActionLink("Clientes", "Index", "Clientes")</li>
                     }
-                    @if (User.IsInRole("funcionario,cliente"))
+                    @if (User.IsInRole("funcionario")|| User.IsInRole("cliente"))
                     {
                         <li>@Html.ActionLink("Encomendas", "Index", "Encomendas")</li>
                     }
