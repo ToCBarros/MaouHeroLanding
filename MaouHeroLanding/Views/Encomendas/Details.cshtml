@@ -55,9 +55,8 @@
     <div>
         <table class="table">
             <tr>
-                @* representa uma primeira linha na tabela, que é o seu cabeçalho *@
                 <th>
-                    @* listar o Nome do atributo DataDaMulta *@
+                  
                     @Html.DisplayNameFor(model => model.ListaDasEncomendas.FirstOrDefault().id)
                 </th>
                 <th>
@@ -70,7 +69,7 @@
                     @Html.DisplayNameFor(model => model.ListaDasEncomendas.FirstOrDefault().ArtigoFK)
                 </th>
             </tr>
-            @* representar as diversas multas do agente *@
+           
             @foreach (var compra in Model.ListaDasEncomendas)
             {
                 <tr>
